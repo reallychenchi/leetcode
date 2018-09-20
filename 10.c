@@ -4,7 +4,7 @@
 #define true 1
 #define false 0
 typedef int bool;
-
+//https://leetcode.com/problems/regular-expression-matching/
 bool isMatch(char* s, char* p) {
     bool isAny = false;
     char * pre = NULL;
