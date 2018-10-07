@@ -45,26 +45,38 @@ void sort(int *nums, int s, int e){
     sort(nums, idx + 1, e);
 }
 
-int search(int *nums, int s, int e, int k, bool findNear){
-    if (s == e){
-            if (findNear) return e;
-            else return -1;
-    }
-    if (s > e){
-        if (findNear){
-            return nums[e] > 0 ? s:e;
+int searchNear(int *nums, int s, int e, int k){
+    int m;
+    while(s < e){
+        m = (s + e) / 2;
+        if (k > nums[m]){
+            e = m;
+        }else if (k == nums[m]){
+            return m;
         }else{
-            return -1;
+            s = m + 1;
         }
     }
-    int m = (s + e) / 2;
-    if (k > nums[m]){
-        return search(nums, s, m, k, findNear);
-    }else if (k == nums[m]){
-        return m;
-    }else{
-        return search(nums, m + 1, e, k, findNear);
+    if (s == e){
+        return e;
     }
+    return -1;
+}
+
+int search(int *nums, int s, int e, int k){
+    int m;
+    while(s < e){
+        m = (s + e) / 2;
+        if (k > nums[m]){
+            e = m;
+        }else if (k == nums[m]){
+            return m;
+        }else{
+            s = m + 1;
+        }
+    }
+
+    return -1;
 }
 
 bool isExists(int *r, int** ret, int sz){
@@ -118,7 +130,7 @@ int** threeSum(int* nums, int numsSize, int* returnSize) {
     if (numsSize < 3) return ret;
 
     sort(nums, 0, numsSize);    
-    int zeroIdx = search(nums, 0, numsSize, 0, true);
+    int zeroIdx = searchNear(nums, 0, numsSize, 0);
     if (zeroIdx < 0 || zeroIdx >= numsSize) return ret;
     int zeroIdxI = zeroIdx;
     while(nums[zeroIdxI] == 0 && zeroIdxI > 0){zeroIdxI--;}
@@ -140,7 +152,7 @@ int** threeSum(int* nums, int numsSize, int* returnSize) {
         for(int j = numsSize - 1; j >= zeroIdxJ; --j){
             r[2] = nums[j];
             r[1] = 0 - r[2] - r[0];
-            int r3Idx = search(nums, i + 1, j, r[1], false);
+            int r3Idx = search(nums, i + 1, j, r[1]);
             if (r3Idx != -1 && !isExists(r, ret, *returnSize)){
                 ret[*returnSize] = r;
                 *returnSize = *returnSize + 1;
