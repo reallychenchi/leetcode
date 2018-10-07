@@ -26,7 +26,7 @@ void writeLetter(char ** data, char * digits, int s, int e, int idx){
 
     char now = getLetter(digit, 0);
     int ss = s;
-    int se = (e - s) / (digit == '9' ? 4 : 3);
+    int se = (e - s) / (digit == '9' || digit == '7' ? 4 : 3);
     do{
         for(int i = 0; i < se; ++i){
             data[i + ss][idx] = now;
@@ -48,7 +48,7 @@ char** letterCombinations(char* digits, int* returnSize) {
     while(*p != 0){
         strLen++;
         if (totalLen == 0) totalLen = 1;
-        if (*p == '9'){
+        if (*p == '9' || *p == '7'){
             totalLen *= 4;
         }else{
             totalLen *= 3;
@@ -79,13 +79,7 @@ int main(){
 	checkResult("23");
 	checkResult("234");
 	checkResult("92");
-    char c = getLetter('9', 0);
-    PT("%c, ", c);
-    c = getLetter('9', c);
-    PT("%c, ", c);
-    c = getLetter('8', 0);
-    PT("%c, ", c);
-    c = getLetter('7', 0);
-    PT("%c, ", c);
+	checkResult("9");
+	checkResult("7");
     return 0;
 }
