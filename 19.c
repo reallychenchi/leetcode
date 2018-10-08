@@ -13,6 +13,28 @@ struct ListNode{
 };
 
 struct ListNode* removeNthFromEnd(struct ListNode* head, int n) {
+    struct ListNode *q = head;
+    struct ListNode *p = head;
+    while(n != 0){
+        p = p->next;
+        n--;
+    }
+    if (NULL == p) return q->next;
+
+    while(p->next != NULL){
+        q = q->next;
+        p = p->next;
+    }
+    p = q->next;
+    if (NULL == p){
+        q->next = NULL;
+    }else{
+        q->next = p->next;
+    }
+    return head;
+}
+
+struct ListNode* removeNthFromEnd1(struct ListNode* head, int n) {
     int len = 0;
     struct ListNode *p = head;
     while(p != NULL){
@@ -21,6 +43,7 @@ struct ListNode* removeNthFromEnd(struct ListNode* head, int n) {
     }
 
     if (len == n) return head->next;
+
     p = head;
     for(int i = 0; i < len - n - 1; ++i){
         p = p->next;
